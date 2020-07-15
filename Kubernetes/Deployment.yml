@@ -1,0 +1,37 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: ibmbankassistantwithwatson
+ labels:
+    app: ibmbankassistantwithwatson
+spec:
+ replicas: 2
+ selector:
+    matchLabels:
+      app: ibmbankassistantwithwatson 
+ template:
+    metadata:
+       labels:
+        app: ibmbankassistantwithwatson
+    spec:
+      containers:
+      - name: ibmbankassistantwithwatsonservice
+        image: us.icr.io/ibmperumf/ibmbankassistantwithwatsonimg:v1
+        ports:
+        - containerPort: 80        
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: ibmbankassistantwithwatson
+spec:
+ type: NodePort
+ selector:
+   app: ibmbankassistantwithwatson
+ ports:
+   - name: client
+     protocol: TCP
+     port: 8080
+     nodePort: 32076
+ selector:
+   app: ibmbankassistantwithwatson
